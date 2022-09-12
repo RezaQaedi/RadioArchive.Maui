@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RadioArchive.Maui.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bh="clr-namespace:RadioArchive.Maui.Behaviors"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    xmlns:views="clr-namespace:RadioArchive.Maui.Views"
+    x:DataType="viewModels:HomeViewModel">
+
+    <Grid RowDefinitions="auto,*,auto">
+        <!--  Theme switch  -->
+        <Switch
+            HorizontalOptions="End"
+            IsVisible="{OnIdiom Phone=true,
+                                Tablet=true,
+                                Default=false}"
+            Toggled="Switch_Toggled" />
+
+        <!--  IsBusy indicator  -->
+        <Label
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsBusy}"
+            Style="{StaticResource LoadingIcon}"
+            VerticalOptions="Center">
+            <Label.Behaviors>
+                <bh:RotationBehavior />
+            </Label.Behaviors>
+        </Label>
+
+        <!--  Faild to load  -->
+        <VerticalStackLayout
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsVisible="{Binding FailedToload}"
+            VerticalOptions="Center">
+            <Label Text="Something went wrong.." />
+
+            <Button
+                Command="{Binding InitialsCommand}"
+                HorizontalOptions="Center"
+                IsVisible="{Binding FailedToload}"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomeRedo}" />
+        </VerticalStackLayout>
+
+        <!--  Main content  -->
+        <ScrollView Grid.Row="1" IsVisible="{Binding FailedToload, Converter={local:InverseBooleanConverter}}">
+            <Grid IsVisible="{Binding IsBusy, Converter={local:InverseBooleanConverter}}" RowDefinitions="auto,*">
+                <!--  User last listend shows  -->
+                <CollectionView
+                    Grid.Row="0"
+                    Margin="10,10,10,0"
+                    IsVisible="{Binding RecentHistoryAny}"
+                    ItemsSource="{Binding RecentHistoryShows}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <views:ShowView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Header>
+                        <Label
+                            Margin="8"
+                            HorizontalOptions="Start"
+                            Text="Keep listening!"
+                            class="Headline" />
+                    </CollectionView.Header>
+                </CollectionView>
+
+                <!--  Recent & top shows  -->
+                <CollectionView
+                    Grid.Row="1"
+                    Margin="5"
+                    IsGrouped="True"
+                    ItemsSource="{Binding Shows}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <views:ShowItemView />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="viewModels:ShowItemViewModelGroup">
+                            <HorizontalStackLayout
+                                Margin="8,0,0,0"
+                                HeightRequest="30"
+                                Spacing="8">
+                                <Label Text="{Binding Title}" class="Headline" />
+                                <Button
+                                    Padding="5"
+                                    Command="{Binding OpenListCommand}"
+                                    IsVisible="{Binding HasMoreContent}"
+                                    Style="{StaticResource IconButton}"
+                                    Text="{StaticResource FontAweosomeAngelRight}" />
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="4"
+                            Orientation="Vertical"
+                            Span="{OnIdiom 4,
+                                           Phone=3}" />
+                    </CollectionView.ItemsLayout>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+
+        <!--  Mini-Player  -->
+        <local:PlayerView
+            x:Name="Player"
+            Grid.Row="2"
+            HorizontalOptions="CenterAndExpand"
+            IsVisible="false" />
+    </Grid>
+</ContentPage>

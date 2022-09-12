@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="Secondary">#DFD8F7</Color>
+    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="Neutral">#969696</Color>
+    <Color x:Key="NeutralLighter">#E5E5E1</Color>
+    <Color x:Key="NeutralDarker">#505050</Color>
+    <Color x:Key="White">#FFFFFF</Color>
+    <Color x:Key="Black">#000000</Color>
+    <Color x:Key="Accent">#F7B548</Color>
+    <Color x:Key="Error">#C00</Color>
+    <Color x:Key="Warning">#FFCC00</Color>
+    <Color x:Key="Text_Light">#000000</Color>
+    <Color x:Key="Text_Dark">#FFFFFF</Color>
+    <Color x:Key="TextOnSolid_Light">#FFFFFF</Color>
+    <Color x:Key="TextOnSolid_Dark">#000000</Color>
+    <Color x:Key="TextSecondary_Light">#1d1d1d</Color>
+    <Color x:Key="TextSecondary_Dark">#f1f1f1</Color>
+    <Color x:Key="Background_Dark">#081B25</Color>
+    <Color x:Key="Background_Mid">#152C39</Color>
+    <Color x:Key="Accent_Yellow100">#F7B548</Color>
+    <Color x:Key="Accent_Yellow200">#FFD590</Color>
+    <Color x:Key="Accent_Blue100">#3E8EED</Color>
+    <Color x:Key="Accent_Blue200">#72ACF1</Color>
+    <Color x:Key="TabOff">#91A7B7</Color>
+
+    <!--  light theme alternatives  -->
+    <Color x:Key="DarkGray">#212125</Color>
+    <Color x:Key="MidGray">#CFCFD3</Color>
+    <Color x:Key="LightGray">#EFEFEF</Color>
+
+
+    <Color x:Key="Light">#DFD8F7</Color>
+    <Color x:Key="Dark">#2B0B98</Color>
+    <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="LightBrush" Color="{StaticResource Light}" />
+    <SolidColorBrush x:Key="DarkBrush" Color="{StaticResource Dark}" />
+    <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />
+    <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}" />
+    <SolidColorBrush x:Key="LightGrayBrush" Color="{StaticResource LightGray}" />
+    <SolidColorBrush x:Key="MidGrayBrush" Color="{StaticResource MidGray}" />
+    <SolidColorBrush x:Key="DarkGrayBrush" Color="{StaticResource DarkGray}" />
+
+    <Color x:Key="Yellow100Accent">#F7B548</Color>
+    <Color x:Key="Yellow200Accent">#FFD590</Color>
+    <Color x:Key="Yellow300Accent">#FFE5B9</Color>
+    <Color x:Key="Cyan100Accent">#28C2D1</Color>
+    <Color x:Key="Cyan200Accent">#7BDDEF</Color>
+    <Color x:Key="Cyan300Accent">#C3F2F4</Color>
+    <Color x:Key="Blue100Accent">#3E8EED</Color>
+    <Color x:Key="Blue200Accent">#72ACF1</Color>
+    <Color x:Key="Blue300Accent">#A7CBF6</Color>
+
+
+    <!--  Colors  -->
+
+    <Color x:Key="CommonOrange">#ffa800</Color>
+    <SolidColorBrush x:Key="CommonOrangeBrush" Color="{StaticResource CommonOrange}" />
+
+    <Color x:Key="CommonRed">#ff4747</Color>
+    <SolidColorBrush x:Key="CommonRedBrush" Color="{StaticResource CommonRed}" />
+
+    <Color x:Key="CommonBlue">#2b4d6e</Color>
+    <SolidColorBrush x:Key="CommonBlueBrush" Color="{StaticResource CommonBlue}" />
+
+    <Color x:Key="PageBackgroundDark">#1B3045</Color>
+    <SolidColorBrush x:Key="PageBackgroundDarkBrush" Color="{StaticResource PageBackgroundDark}" />
+
+    <Color x:Key="PageBackGroundLight">#8196AB</Color>
+    <SolidColorBrush x:Key="PageBackGroundLightBrush" Color="{StaticResource PageBackGroundLight}" />
+
+    <Color x:Key="TextLight">#fefefe</Color>
+    <SolidColorBrush x:Key="TextLightBrush" Color="{StaticResource TextLight}" />
+
+    <Color x:Key="TextDark">#1d1e21</Color>
+    <SolidColorBrush x:Key="TextDarkBrush" Color="{StaticResource TextDark}" />
+
+    <Color x:Key="ForegroundSubtitle">#737373</Color>
+    <SolidColorBrush x:Key="ForegroundSubtitleBrush" Color="{StaticResource ForegroundSubtitle}" />
+
+    <Color x:Key="ForegroundSubtitleDark">#003366</Color>
+    <SolidColorBrush x:Key="ForegroundSubtitleDarkBrush" Color="{StaticResource ForegroundSubtitleDark}" />
+
+    <Color x:Key="MediaControlBackground">#3c3e44</Color>
+    <SolidColorBrush x:Key="MediaControlBackgroundBrush" Color="{StaticResource MediaControlBackground}" />
+
+    <Color x:Key="FlyoutDark">#24405c</Color>
+    <Color x:Key="FlyoutLight">#57728F</Color>
+    <Color x:Key="ShowCardDark">#162737</Color>
+    <Color x:Key="ShowCardLight">#325a81</Color>
+
+</ResourceDictionary>

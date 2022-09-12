@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid
+    x:Class="RadioArchive.Maui.Views.ShowItemView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:beh="clr-namespace:RadioArchive.Maui.Behaviors"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:mauianimation="clr-namespace:MauiAnimation;assembly=MauiAnimation"
+    xmlns:viewmodels="clr-namespace:RadioArchive.Maui.ViewModels"
+    x:DataType="viewmodels:ShowItemViewModel"
+    WidthRequest="{OnIdiom 170,
+                           Phone=110}">
+    <Grid.Resources>
+        <mauianimation:FadeToAnimation
+            x:Key="fadeAnimIsNew"
+            Opacity="0"
+            RepeatForever="True"
+            Target="{x:Reference isNew}"
+            Duration="2000" />
+
+        <mauianimation:FadeToAnimation
+            x:Key="fadeAnimPlaying"
+            Opacity="0"
+            RepeatForever="True"
+            Target="{x:Reference isPlaying}"
+            Duration="1000" />
+    </Grid.Resources>
+
+    <VerticalStackLayout>
+        <Border
+            Padding="5"
+            HeightRequest="{OnIdiom 180,
+                                    Phone=110}"
+            Style="{StaticResource RoundedBorder}">
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SelectCommand}" />
+            </Border.GestureRecognizers>
+
+            <Border.Background>
+                <LinearGradientBrush>
+                    <GradientStop Offset="0.1" Color="{StaticResource CommonOrange}" />
+                    <GradientStop Offset="1.0" Color="{StaticResource CommonRed}" />
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <!--  Is playing indicator  -->
+                <Label
+                    x:Name="isPlaying"
+                    Margin="18"
+                    FontFamily="FontAwsomeSolid"
+                    HorizontalOptions="Start"
+                    IsVisible="{Binding IsPlaying, FallbackValue=false}"
+                    Text="{StaticResource FontAweosomePlay}"
+                    VerticalOptions="End">
+
+                    <Label.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference isPlaying}, Path=IsVisible}"
+                            TargetType="Label"
+                            Value="True">
+                            <DataTrigger.EnterActions>
+                                <mauianimation:BeginAnimation Animation="{StaticResource fadeAnimPlaying}" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <mauianimation:EndAnimation Animation="{StaticResource fadeAnimPlaying}" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <!--  Is new indicator  -->
+                <Label
+                    x:Name="isNew"
+                    Margin="18"
+                    FontFamily="FontAwsomeSolid"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding IsNew, FallbackValue=false}"
+                    Text="{StaticResource FontAweosomeExclamation}"
+                    VerticalOptions="Start">
+
+                    <Label.Triggers>
+                        <DataTrigger
+                            Binding="{Binding Source={x:Reference isNew}, Path=IsVisible}"
+                            TargetType="Label"
+                            Value="True">
+                            <DataTrigger.EnterActions>
+                                <mauianimation:BeginAnimation Animation="{StaticResource fadeAnimIsNew}" />
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <mauianimation:EndAnimation Animation="{StaticResource fadeAnimIsNew}" />
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </Label.Triggers>
+                </Label>
+
+                <!--  Background icon  -->
+                <Label
+                    FontFamily="FontAwsome"
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    Text="{StaticResource FontAweosomePodcast}"
+                    VerticalOptions="Center" />
+
+                <!--  Date text  -->
+                <Label
+                    Grid.ColumnSpan="2"
+                    Margin="0,0,3,6"
+                    HorizontalOptions="End"
+                    Text="{Binding Date, Converter={local:TimeToDisplayTimeConverter}}"
+                    TextColor="{StaticResource Background_Dark}"
+                    VerticalOptions="End"
+                    class="Footnote" />
+            </Grid>
+        </Border>
+        <!--  Title  -->
+        <Label
+            Margin="6,0,0,0"
+            Text="{Binding DisplayTitle}"
+            class="Footnote" />
+    </VerticalStackLayout>
+</Grid>

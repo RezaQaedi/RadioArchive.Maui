@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="RadioArchive.Maui.Views.ShowItemListView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:RadioArchive.Maui.Views"
+    xmlns:viewmodels="clr-namespace:RadioArchive.Maui.ViewModels"
+    x:DataType="viewmodels:ShowItemListViewModel">
+    <VerticalStackLayout>
+        <HorizontalStackLayout
+            Margin="8,0,0,0"
+            HeightRequest="30"
+            Spacing="8">
+
+            <Label Text="{Binding DisplayTitle}" class="Headline" />
+
+            <Button
+                Padding="0,0,0,2"
+                Command="{Binding OpenListCommand}"
+                HeightRequest="30"
+                IsVisible="{Binding HasMoreContent}"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomeAngelRight}"
+                WidthRequest="30" />
+        </HorizontalStackLayout>
+        <!--<ScrollView Grid.Row="1">
+            <HorizontalStackLayout
+                x:Name="stackLayout"
+                BindableLayout.ItemsSource="{Binding Items}"
+                HorizontalOptions="Start"
+                Spacing="{OnIdiom Desktop=10,
+                                  Phone=5}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <local:ShowItemView />
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+        </ScrollView>-->
+
+        <CollectionView
+            Margin="5"
+            EmptyView="{Binding .}"
+            ItemSizingStrategy="MeasureAllItems"
+            ItemsSource="{Binding Items}"
+            VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <local:ShowItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="4"
+                    Orientation="Vertical"
+                    Span="{OnIdiom 4,
+                                   Phone=3}" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.EmptyViewTemplate>
+                <DataTemplate>
+                    <Label Text="Emtpty!" />
+                </DataTemplate>
+            </CollectionView.EmptyViewTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentView>

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<linker>
+  <!-- Entity Framework Core, (system.core alredy LinkSkip with csprog file) -->
+  <assembly fullname="mscorlib">
+    <type fullname="System.String">
+      <method name="Compare"></method>
+      <method name="CompareTo"></method>
+      <method name="ToUpper"></method>
+      <method name="ToLower"></method>
+    </type>
+    <type fullname="System.Double"/>
+    <type fullname="System.DateTime" preserve="methods" />
+  </assembly>
+  <assembly fullname="System.Runtime">
+    <type fullname="System.DateOnly">
+      <method name="AddDays"></method>
+      <method name="AddMonths"></method>
+      <method name="AddYears"></method>
+      <method name="CompareTo"></method>
+    </type>
+  </assembly>
+  <assembly fullname="System.Core">
+    <type fullname="System.Linq.Expressions.Expression`1">
+    </type>
+    <type fullname="System.Linq.Queryable">
+    </type>
+  </assembly>
+  <assembly fullname="Microsoft.EntityFrameworkCore" />
+  <assembly fullname="Microsoft.EntityFrameworkCore.Sqlite" />
+  <assembly fullname="Microsoft.EntityFrameworkCore.Relational" />
+  <assembly fullname="SQLitePCLRaw.core" />
+  <assembly fullname="SQLitePCLRaw.batteries_v2" />
+  <assembly fullname="SQLitePCLRaw.lib.e_sqlite3.android" />
+</linker>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RadioArchive.Maui.Pages.PlayerDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:anim="clr-namespace:RadioArchive.Maui.Animation"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    xmlns:views="clr-namespace:RadioArchive.Maui.Views"
+    x:DataType="viewModels:PlayerViewModel">
+    <Grid Padding="15" RowDefinitions=" auto, *, auto">
+
+        <!--  Notes  -->
+        <VerticalStackLayout
+            Grid.Row="0"
+            Padding="7"
+            IsVisible="{Binding IsAddingNote, Converter={local:InverseBooleanConverter}}"
+            Spacing="3"
+            VerticalOptions="Start">
+            <!--  Add button  -->
+            <Button
+                Padding="6"
+                Command="{Binding AddNewNoteCommand}"
+                FontSize="Micro"
+                HorizontalOptions="End"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomePlus}" />
+
+
+        </VerticalStackLayout>
+
+        <!--  Notes Phone, Tablet  -->
+        <Grid Grid.Row="1" IsVisible="{OnIdiom Default=false, Phone=true, Tablet=true}">
+            <CarouselView
+                IndicatorView="indicatorView"
+                IsBounceEnabled="True"
+                ItemsSource="{Binding Notes}"
+                Loop="False">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <views:ShowNoteView />
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+                <CarouselView.EmptyView>
+                    <ContentView>
+                        <Label
+                            HorizontalOptions="Center"
+                            Text="Whats on you'r mind?"
+                            VerticalOptions="Start"
+                            class="Subhead" />
+                    </ContentView>
+                </CarouselView.EmptyView>
+            </CarouselView>
+            <IndicatorView
+                x:Name="indicatorView"
+                HorizontalOptions="Center"
+                IndicatorColor="LightGray"
+                SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Primary},
+                                                         Dark={StaticResource DarkGray}}"
+                VerticalOptions="End" />
+        </Grid>
+
+        <!--  Notes Default  -->
+        <CollectionView
+            Grid.Row="1"
+            IsVisible="{OnIdiom Default=true,
+                                Phone=false,
+                                Tablet=false}"
+            ItemsSource="{Binding Notes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <views:ShowNoteView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="add new note!"
+                        VerticalOptions="Center" />
+                </ContentView>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <!--  Player  -->
+        <VerticalStackLayout
+            Grid.Row="2"
+            Margin="0,8,0,0"
+            Spacing="3"
+            VerticalOptions="End">
+
+            <Grid>
+                <!--  Media Detalis  -->
+                <VerticalStackLayout>
+                    <!--  Title  -->
+                    <Label
+                        HorizontalOptions="Start"
+                        Text="{Binding DisplayTitle}"
+                        VerticalOptions="Center"
+                        class="Headline" />
+
+                    <!--  Sub  -->
+                    <Label
+                        Margin="6"
+                        HorizontalOptions="Start"
+                        Text="{Binding Subtitle}"
+                        TextColor="{AppThemeBinding Light={StaticResource ForegroundSubtitleDark},
+                                                    Dark={StaticResource ForegroundSubtitle}}"
+                        VerticalOptions="Center"
+                        class="Subhead" />
+                </VerticalStackLayout>
+
+                <!--  Menu  -->
+                <HorizontalStackLayout HorizontalOptions="EndAndExpand" VerticalOptions="Center">
+                    <!--  Add to list  -->
+                    <Button
+                        Command="{Binding AddToPlaylistCommand}"
+                        Style="{StaticResource IconButton}"
+                        Text="{StaticResource FontAweosomeListAlt}" />
+                    <!--  Share  -->
+                    <Button
+                        Command="{Binding ShareCommand}"
+                        Style="{StaticResource IconButton}"
+                        Text="{StaticResource FontAweosomeShare}" />
+                </HorizontalStackLayout>
+
+            </Grid>
+
+            <!--  Seekbar  -->
+            <Slider
+                DragCompleted="Slider_DragCompleted"
+                Maximum="100"
+                Minimum="0.0"
+                Value="{Binding Position}" />
+
+            <!--  Media postion details  -->
+            <Grid>
+                <Label
+                    HorizontalOptions="Start"
+                    Text="{Binding CurrrentTime, Converter={local:TimeSpanToDisplayTimeConverter}}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    HorizontalOptions="End"
+                    Text="{Binding Duration, Converter={local:TimeSpanToDisplayTimeConverter}}"
+                    VerticalOptions="Center" />
+            </Grid>
+
+            <!--  Buttons  -->
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="3">
+                <!--  Record Button  -->
+                <Button
+                    FontSize="30"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeDotCircle}" />
+                <!--  Rewind Button  -->
+                <Button
+                    FontFamily="FontAwsomeSolid"
+                    FontSize="30"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeRotateLeft}">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior Command="{Binding SeekPervCommand}">
+                            <mct:AnimationBehavior.AnimationType>
+                                <anim:RotateLeftAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+                <!--  Play/Pause Button  -->
+                <Grid>
+                    <Button
+                        FontSize="70"
+                        IsVisible="{Binding IsPlaying, Converter={local:InverseBooleanConverter}}"
+                        Style="{StaticResource IconButton}"
+                        Text="{StaticResource FontAweosomePlayCircle}">
+                        <Button.Behaviors>
+                            <mct:AnimationBehavior Command="{Binding TogglePlayCommand}">
+                                <mct:AnimationBehavior.AnimationType>
+                                    <anim:ScaleDownAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                </mct:AnimationBehavior.AnimationType>
+                            </mct:AnimationBehavior>
+                        </Button.Behaviors>
+                    </Button>
+                    <Button
+                        FontSize="70"
+                        IsVisible="{Binding IsPlaying}"
+                        Style="{StaticResource IconButton}"
+                        Text="{StaticResource FontAweosomePauseCircle}">
+                        <Button.Behaviors>
+                            <mct:AnimationBehavior Command="{Binding TogglePlayCommand}">
+                                <mct:AnimationBehavior.AnimationType>
+                                    <anim:ScaleDownAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                                </mct:AnimationBehavior.AnimationType>
+                            </mct:AnimationBehavior>
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+                <!--  Forward button  -->
+                <Button
+                    FontFamily="FontAwsomeSolid"
+                    FontSize="30"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeRotateRight}">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior Command="{Binding SeekNextCommand}">
+                            <mct:AnimationBehavior.AnimationType>
+                                <anim:RotateRightAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+
+                <!--  SpeedRate Button  -->
+                <Button
+                    Style="{StaticResource TextButton}"
+                    Text="{Binding SpeedRate}"
+                    VerticalOptions="Center"
+                    WidthRequest="53">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior Command="{Binding OpenSettingCommand}">
+                            <mct:AnimationBehavior.AnimationType>
+                                <anim:ScaleDownAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="RadioArchive.Maui.Views.ShowView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bh="clr-namespace:RadioArchive.Maui.Behaviors"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:mauiAnim="clr-namespace:MauiAnimation;assembly=MauiAnimation"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    xmlns:views="clr-namespace:RadioArchive.Maui.Views"
+    x:DataType="viewModels:ShowViewModel">
+
+    <ContentView.Resources>
+        <mauiAnim:HeartAnimation
+            x:Key="heartAnim"
+            Target="{x:Reference likeButton}"
+            Duration="2000" />
+    </ContentView.Resources>
+
+    <!--  Media details  -->
+    <Grid
+        x:Name="detailContainer"
+        Padding="5"
+        BackgroundColor="{AppThemeBinding Dark={StaticResource ShowCardDark},
+                                          Light={StaticResource ShowCardLight}}"
+        RowDefinitions="85, Auto">
+
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding GoToPlayerDetailPageCommand}" NumberOfTapsRequired="2" />
+        </Grid.GestureRecognizers>
+
+        <!--  Working layer  -->
+        <Border
+            x:Name="workingLayer"
+            Grid.RowSpan="2"
+            Background="Transparent"
+            IsVisible="{Binding IsBusy}">
+            <Label
+                HorizontalOptions="Center"
+                Style="{StaticResource LoadingIcon}"
+                VerticalOptions="Center">
+                <Label.Behaviors>
+                    <bh:RotationBehavior />
+                </Label.Behaviors>
+            </Label>
+        </Border>
+
+        <!--  Show Options and details  -->
+        <Border x:Name="showDetail" Grid.Row="0">
+            <Grid ColumnDefinitions="Auto, *">
+                <!--  Like button  -->
+                <Button
+                    x:Name="likeButton"
+                    Grid.ColumnSpan="2"
+                    Margin="5"
+                    Command="{Binding ChangeLikeCommand}"
+                    HorizontalOptions="EndAndExpand"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeHeart}"
+                    TextColor="{StaticResource ForegroundSubtitle}"
+                    VerticalOptions="Center">
+                    <Button.Triggers>
+                        <EventTrigger Event="Clicked">
+                            <mauiAnim:BeginAnimation Animation="{StaticResource heartAnim}" />
+                        </EventTrigger>
+                        <DataTrigger
+                            Binding="{Binding IsLiked}"
+                            TargetType="Button"
+                            Value="True">
+                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource CommonOrange}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <!--  Icon Container  -->
+                <Border
+                    Grid.Column="0"
+                    Margin="3"
+                    Style="{StaticResource RoundedBorder}"
+                    WidthRequest="80">
+
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
+                            <GradientStop Offset="1" Color="{Binding BackgroundColor, FallbackValue={StaticResource CommonOrange}}" />
+                            <GradientStop Offset="0.0" Color="{Binding BackgroundColorLighter, FallbackValue={StaticResource CommonOrange}}" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Grid>
+                        <!--  Is Replay indicator  -->
+                        <Label
+                            Margin="2"
+                            HorizontalOptions="End"
+                            IsVisible="{Binding IsReplay}"
+                            Text="R"
+                            TextColor="{StaticResource Blue100Accent}"
+                            VerticalOptions="Start" />
+
+                        <!--  Play Button  -->
+                        <Grid x:Name="playButtonContainer">
+                            <Button
+                                Command="{Binding PlayCommand}"
+                                FontSize="Small"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding IsPlaying, Converter={local:InverseBooleanConverter}}"
+                                Style="{StaticResource IconButton}"
+                                Text="{StaticResource FontAweosomePlay}"
+                                VerticalOptions="Center"
+                                WidthRequest="50" />
+                            <Button
+                                Command="{Binding PlayCommand}"
+                                FontSize="Small"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding IsPlaying}"
+                                Style="{StaticResource IconButton}"
+                                Text="{StaticResource FontAweosomePause}"
+                                VerticalOptions="Center"
+                                WidthRequest="50" />
+                        </Grid>
+
+                        <!--  Icon  -->
+                        <Label
+                            Margin="3"
+                            FontFamily="FontAwsomeSolid"
+                            FontSize="{StaticResource IconFootNoteSize}"
+                            HorizontalOptions="Start"
+                            Text="{Binding Time, Converter={local:ShowTimeToFontAwsomeConverter}}"
+                            VerticalOptions="End" />
+                    </Grid>
+                </Border>
+
+                <!--  Delete Icon  -->
+                <Button
+                    Grid.Column="1"
+                    Margin="-2"
+                    Padding="2"
+                    Command="{Binding RemoveCommand}"
+                    HorizontalOptions="End"
+                    IsVisible="{Binding IsRemoveble}"
+                    Opacity="0.2"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeCloseIcon}"
+                    VerticalOptions="Start" />
+
+                <!--  User Proggresion  -->
+                <ProgressBar
+                    Grid.Column="1"
+                    Margin="0,0,15,0"
+                    Opacity="0.5"
+                    Progress="{Binding Proggress}"
+                    VerticalOptions="EndAndExpand" />
+
+                <!--  Details  -->
+                <VerticalStackLayout Grid.Column="1" Margin="10">
+                    <Label
+                        Margin="0,0,0,5"
+                        Text="{Binding DisplayTitle}"
+                        class="Headline" />
+                    <Label
+                        Margin="2,0,0,0"
+                        Text="{Binding Date, Converter={local:TimeToDisplayTimeConverter}}"
+                        class="Footnote" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+    </Grid>
+</ContentView>

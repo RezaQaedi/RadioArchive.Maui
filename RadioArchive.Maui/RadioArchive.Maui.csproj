@@ -1,0 +1,245 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0-android</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">
+      $(TargetFrameworks);net6.0-windows10.0.19041
+    </TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RadioArchive.Maui</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Display name -->
+    <ApplicationTitle>RadioArchive</ApplicationTitle>
+
+    <!-- App Identifier -->
+    <ApplicationId>com.RadioArchive.Maui</ApplicationId>
+    <ApplicationIdGuid>2C45075D-FC6B-40DB-8F94-420837025966</ApplicationIdGuid>
+
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-maccatalyst'">14.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AssemblyName>RadioArchive.Maui</AssemblyName>
+  </PropertyGroup>
+
+    <!-- Android Link -->
+  <!--<PropertyGroup>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip>System.Core;System.Runtime;mscorlib</AndroidLinkSkip>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+  </PropertyGroup>-->
+  
+  <!-- Android key store -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>myapp.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias>key</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass></AndroidSigningKeyPass>
+    <AndroidSigningStorePass></AndroidSigningStorePass>
+  </PropertyGroup>
+  
+  <!-- Android Release -->
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|x64'">
+    <DebugSymbols>False</DebugSymbols>
+    <RunAOTCompilation>True</RunAOTCompilation>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip>System.Core;</AndroidLinkSkip>
+    <AndroidEnableProfiledAot>True</AndroidEnableProfiledAot>
+    <PublishTrimmed>True</PublishTrimmed>
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|x86'">
+    <DebugSymbols>False</DebugSymbols>
+    <RunAOTCompilation>True</RunAOTCompilation>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip>System.Core;</AndroidLinkSkip>
+    <AndroidEnableProfiledAot>True</AndroidEnableProfiledAot>
+    <PublishTrimmed>True</PublishTrimmed>
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+    <DebugSymbols>False</DebugSymbols>
+    <RunAOTCompilation>True</RunAOTCompilation>
+    <AndroidEnableProfiledAot>True</AndroidEnableProfiledAot>
+    <PublishTrimmed>True</PublishTrimmed>
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <!-- Android Debug -->
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
+    <DebugSymbols>True</DebugSymbols>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <Optimize>True</Optimize>
+    <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+    <PublishTrimmed>False</PublishTrimmed>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|x64'">
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <Optimize>True</Optimize>
+    <DebugSymbols>True</DebugSymbols>
+    <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+    <PublishTrimmed>False</PublishTrimmed>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|x86'">
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <Optimize>True</Optimize>
+    <DebugSymbols>True</DebugSymbols>
+    <AndroidEnableProfiledAot>False</AndroidEnableProfiledAot>
+    <PublishTrimmed>False</PublishTrimmed>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- App Icon -->
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
+    <!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+    <!-- Images -->
+    <MauiImage Include="Resources\Images\*" />
+
+    <!-- Custom Fonts -->
+    <MauiFont Include="Resources\Fonts\*" />
+
+    <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+    <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup> 
+
+
+  <ItemGroup>
+    <Compile Remove="Helpers\CertificateDownloader.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\fa-solid-900.ttf" />
+    <None Remove="Resources\Fonts\fontawesome-webfont.ttf" />
+    <None Remove="Resources\Fonts\PTSansCaption-Bold.ttf" />
+    <None Remove="Resources\Fonts\PTSansCaption-Regular.ttf" />
+    <None Remove="Resources\Images\playerc_play.svg" />
+    <None Remove="Resources\Images\playerc_puase.svg" />
+    <None Remove="Resources\Images\player_forward.svg" />
+    <None Remove="Resources\Images\player_pause.svg" />
+    <None Remove="Resources\Images\player_play.svg" />
+    <None Remove="Resources\Images\player_rewind.svg" />
+    <None Remove="Resources\Images\player_stop.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="1.0.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0-preview4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows10.0.19041'">
+    <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.17.4" />
+    <PackageReference Include="LibVLCSharp" Version="3.6.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Pages\MobileShell.xaml.cs">
+      <DependentUpon>MobileShell.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\LastShowsPage.xaml.cs">
+      <DependentUpon>LastShowsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\DesktopShell.xaml.cs">
+      <DependentUpon>DesktopShell.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\PlayerDetailPage.xaml.cs">
+      <DependentUpon>PlayerDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\ShowItemListDetailPage.xaml.cs">
+      <DependentUpon>ShowItemListDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Show\Note\ShowNoteView.xaml.cs">
+      <DependentUpon>ShowNoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Show\ShowItemListView.xaml.cs">
+      <DependentUpon>ShowItemListView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="Pages\MobileShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\LastShowsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\HomePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\DesktopShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\PlayerDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\PlayerListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\ShowItemDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\ShowItemListDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Pages\YearDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Resources\Style\Colors.xaml">
+      <Generator></Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Player\PlayerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Show\Note\ShowNoteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Show\ShowItemListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Show\ShowItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\Show\ShowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="MauiAnimation">
+      <HintPath>..\..\MauiAnimation-1.0.0\src\MauiAnimation\bin\Debug\net6.0-android\MauiAnimation.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Platforms\Android\Resources\raw\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <LinkDescription Include="Platforms\Android\Linker.xml" />
+  </ItemGroup>
+
+</Project>

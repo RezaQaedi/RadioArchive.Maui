@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RadioArchive.Maui.Pages.PlayerListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    x:DataType="viewModels:UserPlayListViewModel">
+
+    <CollectionView
+        Margin="5"
+        HorizontalOptions="FillAndExpand"
+        ItemSizingStrategy="MeasureAllItems"
+        ItemsSource="{Binding UserCreatedPlaylist}"
+        VerticalOptions="FillAndExpand"
+        VerticalScrollBarVisibility="Always">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="viewModels:IconTextViewModel">
+                <Grid
+                    BackgroundColor="Transparent"
+                    HeightRequest="90"
+                    WidthRequest="120">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SelectCommand}" />
+                    </Grid.GestureRecognizers>
+
+                    <!--  Remove button  -->
+                    <Button
+                        Margin="5"
+                        Command="{Binding RemoveCommand}"
+                        HorizontalOptions="End"
+                        IsVisible="{Binding IsRemoveble}"
+                        Style="{StaticResource IconButton}"
+                        Text="{StaticResource FontAweosomeTrashAlt}"
+                        VerticalOptions="Start" />
+
+                    <Label
+                        FontFamily="FontAwsomeSolid"
+                        HorizontalOptions="Center"
+                        Text="{Binding Icon, Converter={local:IconTypetoFontAwsomeConverter}}"
+                        VerticalOptions="Center" />
+
+                    <Label
+                        HorizontalOptions="Center"
+                        Text="{Binding DisplayText}"
+                        VerticalOptions="End" />
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="4"
+                Orientation="Vertical"
+                Span="{OnIdiom 4,
+                               Phone=3}" />
+        </CollectionView.ItemsLayout>
+    </CollectionView>
+</ContentPage>

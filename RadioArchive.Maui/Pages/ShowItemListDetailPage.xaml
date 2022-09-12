@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RadioArchive.Maui.Pages.ShowItemListDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:bh="clr-namespace:RadioArchive.Maui.Behaviors"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    xmlns:views="clr-namespace:RadioArchive.Maui.Views"
+    Title="{Binding DisplayTitle}"
+    x:DataType="viewModels:ShowItemListDetailViewModel"
+    Shell.PresentationMode="Modal">
+
+    <Grid Padding="5" RowDefinitions="70,*,auto">
+
+        <VerticalStackLayout Grid.Row="0">
+            <Button
+                Command="{Binding GoBackCommand}"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomeAngelDown}"
+                TextColor="{StaticResource ForegroundSubtitle}" />
+            <Label HorizontalOptions="Center" Text="{Binding DisplayTitle}" />
+        </VerticalStackLayout>
+
+        <!--  Retry / loading  -->
+        <VerticalStackLayout
+            x:Name="workLayer"
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsVisible="{Binding FailedToLoad}"
+            VerticalOptions="Center">
+            <Button
+                Command="{Binding InitialsCommand}"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomeRedo}" />
+
+            <Label Margin="0,15,0,0" Text="Something went wrong.." />
+        </VerticalStackLayout>
+
+
+        <Label
+            Grid.Row="1"
+            HorizontalOptions="Center"
+            IsVisible="{Binding IsBusy}"
+            Style="{StaticResource LoadingIcon}"
+            VerticalOptions="Center">
+            <Label.Behaviors>
+                <bh:RotationBehavior />
+            </Label.Behaviors>
+        </Label>
+
+        <CollectionView
+            Grid.Row="1"
+            IsVisible="{Binding IsBusy, Converter={local:InverseBooleanConverter}}"
+            ItemsSource="{Binding Shows.Items}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <views:ShowItemView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <Label
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding FailedToLoad, Converter={local:InverseBooleanConverter}}"
+                        Text="Nothing here!"
+                        VerticalOptions="Center" />
+                </ContentView>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    HorizontalItemSpacing="4"
+                    Orientation="Vertical"
+                    Span="{OnIdiom 4,
+                                   Phone=3}" />
+            </CollectionView.ItemsLayout>
+        </CollectionView>
+
+        <local:PlayerView
+            x:Name="Player"
+            Grid.Row="2"
+            HorizontalOptions="CenterAndExpand"
+            IsVisible="false" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RadioArchive.Maui.Pages.YearDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:anim="clr-namespace:RadioArchive.Maui.Animation"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    Title="{Binding DisplayTitle}"
+    x:DataType="viewModels:YearDetailViewModel"
+    Shell.PresentationMode="Modal">
+
+    <CollectionView
+        Grid.Row="1"
+        Margin="5"
+        HorizontalOptions="FillAndExpand"
+        ItemSizingStrategy="MeasureAllItems"
+        ItemsSource="{Binding Items}"
+        VerticalOptions="FillAndExpand"
+        VerticalScrollBarVisibility="Always">
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="viewModels:DateItemViewModel">
+                <Button
+                    x:Name="dateItemContainer"
+                    Margin="22"
+                    BackgroundColor="Transparent"
+                    FontSize="Small"
+                    Style="{StaticResource TextButton}"
+                    Text="{Binding Name}"
+                    WidthRequest="120">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior Command="{Binding SelectCommand}">
+                            <mct:AnimationBehavior.AnimationType>
+                                <anim:ScaleDownAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.ItemsLayout>
+            <GridItemsLayout
+                HorizontalItemSpacing="4"
+                Orientation="Vertical"
+                Span="{OnIdiom 4,
+                               Phone=3}" />
+        </CollectionView.ItemsLayout>
+        <CollectionView.Header>
+            <VerticalStackLayout Padding="5" Spacing="5">
+                <Button
+                    Command="{Binding GoBackCommand}"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeAngelDown}"
+                    TextColor="{StaticResource ForegroundSubtitle}" />
+                <Label HorizontalOptions="Center" Text="{Binding DisplayTitle}" />
+            </VerticalStackLayout>
+        </CollectionView.Header>
+    </CollectionView>
+</ContentPage>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    x:Class="RadioArchive.Maui.MobileShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:RadioArchive.Maui.Pages">
+
+    <TabBar>
+        <Tab Title="Home" Icon="{StaticResource HomeIcon}">
+            <ShellContent ContentTemplate="{DataTemplate pages:HomePage}" Route="HomePage" />
+        </Tab>
+        <Tab Title="Discover" Icon="{StaticResource DiscoveryIcon}">
+            <ShellContent ContentTemplate="{DataTemplate pages:LastShowsPage}" Route="LastShowsPage" />
+        </Tab>
+        <Tab Title="Playlist" Icon="{StaticResource PlayListIcon}">
+            <ShellContent ContentTemplate="{DataTemplate pages:PlayerListPage}" Route="PlayerListPage" />
+        </Tab>
+        <Tab Title="Player" Icon="{StaticResource PlayerIcon}">
+            <ShellContent ContentTemplate="{DataTemplate pages:PlayerDetailPage}" Route="PlayerDetailPage" />
+        </Tab>
+    </TabBar>
+</Shell>

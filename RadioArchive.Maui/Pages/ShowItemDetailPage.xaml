@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RadioArchive.Maui.ShowItemDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModel="clr-namespace:RadioArchive.Maui.ViewModels"
+    xmlns:views="clr-namespace:RadioArchive.Maui.Views"
+    Title="{Binding DisplayTitle}"
+    x:DataType="viewModel:ShowItemDetailViewModel"
+    Shell.PresentationMode="ModalAnimated">
+
+    <Grid Padding="8" RowDefinitions="auto, *">
+        <Button
+            Command="{Binding GoBackCommand}"
+            HorizontalOptions="Center"
+            Style="{StaticResource IconButton}"
+            Text="{StaticResource FontAweosomeAngelDown}"
+            TextColor="{StaticResource ForegroundSubtitle}" />
+
+        <CollectionView
+            x:Name="ShowsCollection"
+            Grid.Row="1"
+            ItemsSource="{Binding Shows}">
+            <CollectionView.EmptyView>
+                <Label
+                    HorizontalOptions="CenterAndExpand"
+                    Text="Nothing here!"
+                    VerticalOptions="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <views:ShowView />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

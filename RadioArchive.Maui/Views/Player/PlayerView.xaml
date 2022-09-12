@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="RadioArchive.Maui.PlayerView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:anim="clr-namespace:RadioArchive.Maui.Animation"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    x:DataType="viewModels:PlayerViewModel">
+    <!--  Player  -->
+    <Grid Padding="8,0,8,0" ColumnDefinitions="auto, auto, *, auto">
+
+        <!--  Control Button  -->
+        <HorizontalStackLayout Grid.Column="0" Padding="10">
+
+            <Button
+                FontFamily="FontAwsomeSolid"
+                FontSize="{OnIdiom Default=25,
+                                   Phone=20}"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomeRotateLeft}">
+                <Button.Behaviors>
+                    <mct:AnimationBehavior Command="{Binding SeekPervCommand}">
+                        <mct:AnimationBehavior.AnimationType>
+                            <anim:RotateLeftAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </mct:AnimationBehavior.AnimationType>
+                    </mct:AnimationBehavior>
+                </Button.Behaviors>
+            </Button>
+
+            <Grid>
+                <Button
+                    Padding="5"
+                    FontSize="{OnIdiom Default=50,
+                                       Phone=38}"
+                    IsVisible="{Binding IsPlaying, Converter={local:InverseBooleanConverter}}"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomePlayCircle}">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior Command="{Binding TogglePlayCommand}">
+                            <mct:AnimationBehavior.AnimationType>
+                                <anim:ScaleDownAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+                <Button
+                    Padding="5"
+                    FontSize="{OnIdiom Default=50,
+                                       Phone=38}"
+                    IsVisible="{Binding IsPlaying}"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomePauseCircle}">
+                    <Button.Behaviors>
+                        <mct:AnimationBehavior Command="{Binding TogglePlayCommand}">
+                            <mct:AnimationBehavior.AnimationType>
+                                <anim:ScaleDownAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                            </mct:AnimationBehavior.AnimationType>
+                        </mct:AnimationBehavior>
+                    </Button.Behaviors>
+                </Button>
+            </Grid>
+            <Button
+                FontFamily="FontAwsomeSolid"
+                FontSize="{OnIdiom Default=25,
+                                   Phone=20}"
+                Style="{StaticResource IconButton}"
+                Text="{StaticResource FontAweosomeRotateRight}">
+                <Button.Behaviors>
+                    <mct:AnimationBehavior Command="{Binding SeekNextCommand}">
+                        <mct:AnimationBehavior.AnimationType>
+                            <anim:RotateRightAnimation Easing="{x:Static Easing.Linear}" Length="100" />
+                        </mct:AnimationBehavior.AnimationType>
+                    </mct:AnimationBehavior>
+                </Button.Behaviors>
+            </Button>
+        </HorizontalStackLayout>
+
+        <!--  Details  -->
+        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+
+            <!--  Title  -->
+            <Label FontSize="13" Text="{Binding DisplayTitle}" />
+
+            <!--  Sub  -->
+            <Label
+                Margin="2"
+                Text="{Binding Subtitle}"
+                class="Footnotesub" />
+        </VerticalStackLayout>
+
+        <!--  Proggress slider  -->
+        <Slider
+            Grid.Column="2"
+            Margin="8"
+            DragCompleted="Slider_DragCompleted"
+            IsVisible="{OnIdiom Default=true,
+                                Phone=false}"
+            Maximum="100"
+            VerticalOptions="CenterAndExpand"
+            Value="{Binding Position}" />
+
+        <ProgressBar
+            Grid.ColumnSpan="3"
+            IsVisible="{OnIdiom Default=false,
+                                Phone=true}"
+            Progress="{Binding Proggress}"
+            VerticalOptions="EndAndExpand" />
+
+        <!--  Media Details  -->
+        <HorizontalStackLayout
+            Grid.Column="3"
+            IsVisible="{OnIdiom Default=true,
+                                Phone=false}"
+            VerticalOptions="Center">
+
+            <Label
+                HorizontalOptions="Start"
+                Text="{Binding CurrrentTime, Converter={local:TimeSpanToDisplayTimeConverter}}"
+                VerticalOptions="Center"
+                class="Footnotesub" />
+            <Label Text="/" class="Footnotesub" />
+            <Label
+                HorizontalOptions="End"
+                Text="{Binding Duration, Converter={local:TimeSpanToDisplayTimeConverter}}"
+                VerticalOptions="Center"
+                class="Footnotesub" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentView>

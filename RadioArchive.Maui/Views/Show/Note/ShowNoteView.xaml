@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="RadioArchive.Maui.Views.ShowNoteView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animBeh="clr-namespace:RadioArchive.Maui.Behaviors"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:viewModels="clr-namespace:RadioArchive.Maui.ViewModels"
+    x:DataType="viewModels:ShowNoteViewModel">
+    <Frame Background="Transparent">
+        <Grid RowDefinitions="25, *, Auto">
+            <!--  Show Time  -->
+            <HorizontalStackLayout Spacing="5">
+                <Label Text="At " />
+                <Button
+                    Command="{Binding SeekToTimeCommand}"
+                    Style="{StaticResource TextButton}"
+                    Text="{Binding PodcastTime, Converter={local:TimeSpanToDisplayTimeConverter}}" />
+                <Label Text=":" />
+            </HorizontalStackLayout>
+
+            <!--  Date and menu  -->
+            <HorizontalStackLayout Margin="0,0,20,0" HorizontalOptions="End">
+                <!--  Date  -->
+                <Label
+                    Text="{Binding Date, Converter={local:TimeToDisplayTimeConverter}}"
+                    VerticalOptions="Center"
+                    class="Footnote" />
+
+                <!--  Editing button  -->
+                <Button
+                    Padding="5"
+                    Command="{Binding EditCommand}"
+                    IsVisible="{Binding Editing, Converter={local:InverseBooleanConverter}}"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeEdit}" />
+
+                <!--  Remove note  -->
+                <Button
+                    Padding="5"
+                    Command="{Binding RemoveCommand}"
+                    IsVisible="{Binding Editing, Converter={local:InverseBooleanConverter}}"
+                    Style="{StaticResource IconButton}"
+                    Text="{StaticResource FontAweosomeTrashAlt}" />
+            </HorizontalStackLayout>
+
+            <!--  Main Note  -->
+            <Label
+                Grid.Row="1"
+                Margin="5,7,5,10"
+                FontSize="{OnIdiom Default=Micro,
+                                   Phone=18,
+                                   Tablet=20}"
+                IsVisible="{Binding Editing, Converter={local:InverseBooleanConverter}}"
+                Text="{Binding TextNote}" />
+
+            <!--  Loading  -->
+            <Border
+                x:Name="workinLayer"
+                Grid.RowSpan="2"
+                IsVisible="{Binding IsBusy}">
+                <Label
+                    HorizontalOptions="Center"
+                    Style="{StaticResource LoadingIcon}"
+                    VerticalOptions="Center">
+                    <Label.Behaviors>
+                        <animBeh:RotationBehavior />
+                    </Label.Behaviors>
+                </Label>
+            </Border>
+        </Grid>
+    </Frame>
+</ContentView>

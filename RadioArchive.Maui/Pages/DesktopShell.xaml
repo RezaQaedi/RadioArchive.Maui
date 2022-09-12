@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    x:Class="RadioArchive.Maui.DesktopShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:RadioArchive.Maui"
+    xmlns:pages="clr-namespace:RadioArchive.Maui.Pages"
+    FlyoutBehavior="Locked"
+    FlyoutWidth="220">
+
+    <Shell.FlyoutBackground>
+        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+            <GradientStop Offset="0.1" Color="{AppThemeBinding Dark={StaticResource FlyoutDark}, Light={StaticResource FlyoutLight}}" />
+            <GradientStop Offset="0.6" Color="{AppThemeBinding Dark={StaticResource FlyoutLight}, Light={StaticResource FlyoutDark}}" />
+        </LinearGradientBrush>
+    </Shell.FlyoutBackground>
+
+    <FlyoutItem Title="Home" Icon="{StaticResource HomeIcon}">
+        <ShellContent ContentTemplate="{DataTemplate pages:HomePage}" Route="HomePage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Discover" Icon="{StaticResource DiscoveryIcon}">
+        <ShellContent ContentTemplate="{DataTemplate pages:LastShowsPage}" Route="LastShowsPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Playlist" Icon="{StaticResource PlayListIcon}">
+        <ShellContent ContentTemplate="{DataTemplate pages:PlayerListPage}" Route="PlayerListPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Player" Icon="{StaticResource PlayerIcon}">
+        <ShellContent ContentTemplate="{DataTemplate pages:PlayerDetailPage}" Route="PlayerDetailPage" />
+    </FlyoutItem>
+
+    <Shell.FlyoutFooter>
+        <Switch HorizontalOptions="Center" Toggled="Switch_Toggled" />
+    </Shell.FlyoutFooter>
+
+    <!--<Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="0.2*,0.8*">
+                <Image
+                    Margin="5"
+                    HeightRequest="50"
+                    Source="{Binding FlyoutIcon}" />
+                <Label
+                    Grid.Column="1"
+                    Margin="5"
+                    Text="{Binding Title}"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>-->
+</Shell>
