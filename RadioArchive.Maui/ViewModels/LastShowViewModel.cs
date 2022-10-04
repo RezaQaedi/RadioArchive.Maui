@@ -20,8 +20,8 @@
     public partial class LastShowViewModel : BaseViewModel
     {
         #region Private filds 
-        private const int MAXYEAR = 2022;
-        private const int MINYEAR = 2007;
+        private readonly int _maxYear = DateTime.Now.Year;
+        private readonly int _minYear = 2007;
         #endregion
 
         #region Public properties 
@@ -39,7 +39,7 @@
 
         #region Counstractor
         public LastShowViewModel()
-        { 
+        {
             SetYears();
         }
         #endregion
@@ -52,7 +52,7 @@
         private void SetYears()
         {
             Items = new();
-            for (int i = MAXYEAR; i >= MINYEAR; i--)
+            for (int i = _maxYear; i >= _minYear; i--)
             {
                 var item = new DateItemViewModel(i.ToString(), i)
                 {

@@ -47,6 +47,12 @@
     <AndroidSigningKeyPass></AndroidSigningKeyPass>
     <AndroidSigningStorePass></AndroidSigningStorePass>
   </PropertyGroup>
+
+  <PropertyGroup Condition="$(TargetFramework.Contains('-windows')) and '$(Configuration)' == 'Release'">
+    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint></PackageCertificateThumbprint>
+  </PropertyGroup>
   
   <!-- Android Release -->
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|x64'">
@@ -129,6 +135,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="myapp.keystore" />
     <None Remove="Resources\Fonts\fa-solid-900.ttf" />
     <None Remove="Resources\Fonts\fontawesome-webfont.ttf" />
     <None Remove="Resources\Fonts\PTSansCaption-Bold.ttf" />
